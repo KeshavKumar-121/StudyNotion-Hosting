@@ -10,6 +10,8 @@ import { apiConnector } from "../../services/apiConnector"
 import { categories } from "../../services/apis"
 import { ACCOUNT_TYPE } from "../../utils/constants"
 import ProfileDropdown from "../core/Auth/ProfileDropDown"
+import { RxCross1 } from "react-icons/rx";
+
 
 // const subLinks = [
 //   {
@@ -38,6 +40,7 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [menu, setMenu] = useState(false);
 
   useEffect(() => {
     ;(async () => {
@@ -159,9 +162,59 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+        {
+          !menu && (
+            <button className="mr-4 md:hidden">
+              <AiOutlineMenu fontSize={24} fill="#AFB2BF" onClick={() => setMenu(true)}/>
+            </button>
+          )
+        }
+
+
+        {
+          menu && (
+            <div className="relative flex flex-row-reverse">
+            <button className="mr-4 md:hidden text-white">
+                <RxCross1 fontSize={24} fill="#AFB2BF" onClick={()=> setMenu(false)}/>
+            </button>
+
+            <div className="w-[370px] h-[700px] flex absolute top-10 bg-white right-0">
+              
+              <div className=" items-center gap-x-4 bg-white">
+                  {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+                    <Link to="/dashboard/cart" className="relative">
+                      <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
+                      {totalItems > 0 && (
+                        <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
+                          {totalItems}
+                        </span>
+                      )}
+                    </Link>
+                  )}
+                  {token === null && (
+                    <Link to="/login">
+                      <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                        Log in
+                      </button>
+                    </Link>
+                  )}
+                  {token === null && (
+                    <Link to="/signup">
+                      <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                        Sign up
+                      </button>
+                    </Link>
+                  )}
+                  {token !== null && <ProfileDropdown />}
+              </div>
+
+            </div>
+            </div>
+            
+
+
+          )
+        }
       </div>
     </div>
   )

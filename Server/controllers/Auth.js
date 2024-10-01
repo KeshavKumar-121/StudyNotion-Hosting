@@ -255,6 +255,27 @@ exports.changePassword = async (req, res) => {
     )
 
     // Send notification email
+    // try {
+    //   const emailResponse = await mailSender(
+    //     updatedUserDetails.email,
+    //     "Password for your account has been updated",
+    //     passwordUpdated(
+    //       updatedUserDetails.email,
+    //       `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
+    //     )
+    //   )
+    //   console.log("Email sent successfully:", emailResponse.response)
+    // } catch (error) {
+    //   // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
+    //   console.error("Error occurred while sending email:", error)
+    //   return res.status(500).json({
+    //     success: false,
+    //     message: "Error occurred while sending email",
+    //     error: error.message,
+    //   })
+    // }
+
+
     try {
       const emailResponse = await mailSender(
         updatedUserDetails.email,
@@ -274,7 +295,6 @@ exports.changePassword = async (req, res) => {
         error: error.message,
       })
     }
-
     // Return success response
     return res
       .status(200)

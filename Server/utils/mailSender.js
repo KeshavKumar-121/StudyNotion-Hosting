@@ -17,6 +17,7 @@ const mailSender = async (email, title, body) => {
       subject: `${title}`, // Subject line
       html: `${body}`, // html body
     })
+    console.log("this is mailsender response info")
     console.log(info.response)
     return info
   } catch (error) {
@@ -24,5 +25,4 @@ const mailSender = async (email, title, body) => {
     return error.message
   }
 }
-
 module.exports = mailSender
